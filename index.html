@@ -9,7 +9,6 @@
   <script src="js/scripts.js"></script>
   <title>Language Suggester</title>
 </head>
-
 <body>
   <menu>
     <li>
@@ -35,32 +34,19 @@
       <img src="img/gearicon.png">
     </div>
   </header>
-  
   <main>
     <div id="intro">
-      Congratulations for your interest in a new language! Please complete this brief form to produce a
+      Congratulations for your interest in a new language! Please complete this brief survey to produce a
       suggestion that's surely suitable for all your future pursuits!
     </div>
     <div id="form-area">
-      <form>
-        <div class="form-row">
-          <p>Do you prefer a humid environment?</p>
-          <div class="toggle no">
-            <div class="toggle-groove"></div>
-            <div class="toggle-knob"></div>
-          </div>
+      <form class="hidden">
+        <div id="question-area">
+          <!-- .form-row elements added here by populateQuestions -->
         </div>
-        <div class="form-row">
-          <p>Do you prefer a flan?</p>
-          <div class="toggle no">
-            <div class="toggle-groove"></div>
-            <div class="toggle-knob"></div>
-          </div>
-        </div>
-        <button type="submit">Submit and go to next section</button>
+        <button type="submit">Submit</button>
       </form>
     </div>
   </main>
 </body>
-
 </html>

@@ -84,8 +84,13 @@ menu.open {
 }
 
 select {
-  font-size: 1.25rem;
-  padding: 0 1rem;
+  font-size: 1.15rem;
+  padding: 0.5rem 1rem;
+  text-transform: capitalize;
+}
+
+.form-row > select {
+  padding: 0.5rem;
 }
 
 menu > li {
@@ -107,7 +112,13 @@ form {
   display: flex;
   flex-direction: column;
   align-items: stretch;
+  transition: opacity 300ms ease;
 }
+
+form.hidden {
+  opacity: 0;
+}
+
 form > button {
   margin: 2rem;
   padding: 1rem;
@@ -120,12 +131,10 @@ form > button {
   align-items: center;
   padding: 1rem;
   background-color: var(--secondary-text-color);
-  border: 0.25rem solid #00000044;
-  border-left: 0;
-  border-right: 0;
+  border-top: 0.25rem solid #00000044;
 }
-.form-row:first-of-type {
-  border-bottom: 0;
+.form-row:last-child {
+  border-bottom: 0.25rem solid #00000044;
 }
 
 .form-row > p {
