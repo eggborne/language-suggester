@@ -9,26 +9,15 @@ window.onload = function() {
       e.target.classList.toggle('yes');
     };
   });
-  let resultsArea = document.getElementById('results-area');
   document.querySelector('form > button').onclick = function(e) {
     e.preventDefault();
     tallyScores();
-    let winner = languageOptions[getWinner()];
-    // populate results div
-    document.querySelector('#results-area > h2').innerText = winner.printName;
-    document.getElementById('winning-message').innerHTML = winner.winningMessage;
-
-    document.querySelector('form').style.display = 'none';
-    document.getElementById('intro').style.display = 'none';
-    resultsArea.classList.remove('hidden');
+    revealResults();
   }  
   document.getElementById('reset-button').onclick = function(e) {
     resetInputs();
     resetScores();
-    document.querySelector('form').style.display = 'flex';
-    document.getElementById('intro').style.display = 'block';
-    resultsArea.classList.add('hidden');
-    console.table(languageOptions)
+    revealQuestions();
   }  
 }
 
@@ -78,7 +67,7 @@ function tallyScores() {
     let questionObj = questions[parseInt(toggle.id[toggle.id.length-1])];
     let favoredLanguage = Object.entries(questionObj.scores[userAnswer])[0][0];
     let pointsToAdd = Object.entries(questionObj.scores[userAnswer])[0][1];
-    languageOptions[favoredLanguage].totalScore += pointsToAdd;
+    possibleLanguages[favoredLanguage].totalScore += pointsToAdd;
   });
   // multiple choice
   [...document.getElementsByClassName('select-list')].forEach(function(list) {
@@ -89,11 +78,29 @@ function tallyScores() {
       let scoreObj = questionObj.scores[answerIndex];
       let favoredLanguage = Object.entries(questionObj.scores[answerIndex])[0][0];
       let pointsToAdd = Object.entries(questionObj.scores[answerIndex])[0][1];
-      languageOptions[favoredLanguage].totalScore += pointsToAdd;
+      possibleLanguages[favoredLanguage].totalScore += pointsToAdd;
     }
   });
   console.log('tallied scores:');
-  console.table(languageOptions);
+  console.table(possibleLanguages);
+}
+
+function revealResults() {
+  let winner = getWinner();
+  let winnerObj = possibleLanguages[winner];
+  document.querySelector('#result-image-area').innerHTML = `
+    <img src="img/${winner.toLowerCase()}.png">
+  `;
+  document.querySelector('#results-area > h1').innerText = winnerObj.printName;
+  document.getElementById('winning-message').innerHTML = winnerObj.winningMessage;
+  document.querySelector('form').style.display = 'none';
+  document.getElementById('intro').style.display = 'none';
+  document.getElementById('results-area').classList.remove('hidden');
+}
+function revealQuestions() {
+  document.querySelector('form').style.display = 'flex';
+  document.getElementById('intro').style.display = 'block';
+  document.getElementById('results-area').classList.add('hidden');
 }
 
 function resetInputs() {
@@ -110,8 +117,8 @@ function resetInputs() {
 function getWinner() {
   let winner;
   let highScore = 0;
-  for (const language in languageOptions) {
-    const languageObj = languageOptions[language];
+  for (const language in possibleLanguages) {
+    const languageObj = possibleLanguages[language];
     if (languageObj.totalScore > highScore) {
       highScore = languageObj.totalScore;
       winner = language;
@@ -121,8 +128,8 @@ function getWinner() {
 }
 
 function resetScores() {
-  for (const language in languageOptions) {
-    const languageObj = languageOptions[language];
+  for (const language in possibleLanguages) {
+    const languageObj = possibleLanguages[language];
     languageObj.totalScore = 0;
   }
 }
@@ -213,11 +220,11 @@ const questions = [
   },
 ]
 
-const languageOptions = {
+const possibleLanguages = {
   js: {
     printName: "JavaScript",
     winningMessage: `
-      You have demonstrated a keen ability to synergize leveraging key value-adds with enterprise opportunities. Because of this, we recommend <strong>JavaScript</strong>
+      You have demonstrated a keen ability to synergize leveraging key value-adds with enterprise opportunities. Because of this, we recommend <strong>JavaScript</strong>.
     `,
     totalScore: 0
   },
@@ -245,7 +252,7 @@ const languageOptions = {
   dolphin: {
     printName: "Dolphin language",
     winningMessage: `
-      We have determined that you are a dolphin and therefore best suited to learn <strong>the secret language of the lost kingdom of Dolphinia.</strong>
+      We have determined that you are a dolphin and therefore best suited to learn <strong>the secret language of the lost kingdom of Dolphinia</strong>.
     `,
     totalScore: 0
   },

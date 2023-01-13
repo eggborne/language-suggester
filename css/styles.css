@@ -1,5 +1,4 @@
 :root {
-  --actual-height: 100vh; /* this is wrong sometimes; actual pixels in view (minus menu bars etc.) is set by JS at window.onload */
   --header-height: 4rem;
 }
 
@@ -77,6 +76,7 @@ menu {
   transform-origin: top;
   transform: scaleY(0);
   transition: transform 400ms ease;
+  z-index: 1;
 }
 
 menu.open {
@@ -90,6 +90,10 @@ select {
   width: 8rem;
 }
 
+menu select {
+  width: 10rem;
+}
+
 .form-row > select {
   padding: 0.5rem;
 }
@@ -97,6 +101,7 @@ select {
 menu > li {
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
 main {
@@ -118,6 +123,7 @@ form, #results-area {
 
 form.hidden, #results-area.hidden {
   opacity: 0;
+  pointer-events: none;
 }
 
 form > button, #results-area > button {
@@ -157,6 +163,7 @@ form > button, #results-area > button {
   border-radius: 1rem;
   pointer-events: none;
 }
+
 .toggle-knob {
   position: absolute;
   width: 2.5rem;
@@ -168,7 +175,6 @@ form > button, #results-area > button {
   display: flex;
   justify-content: center;
   align-items: center;
-  
   pointer-events: none;
   transition: transform 200ms ease, background-color 200ms ease;
 }
@@ -194,7 +200,10 @@ form > button, #results-area > button {
   position: absolute;
   top: var(--header-height);
   text-align: center;
-  margin-top: 2rem;
+}
+
+#result-image-area > img {
+  height: 15rem;
 }
 
 #winning-message {
