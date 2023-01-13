@@ -87,6 +87,7 @@ select {
   font-size: 1.15rem;
   padding: 0.5rem 1rem;
   text-transform: capitalize;
+  width: 8rem;
 }
 
 .form-row > select {
@@ -108,18 +109,18 @@ main {
   line-height: 140%;
 }
 
-form {
+form, #results-area {
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  transition: opacity 300ms ease;
+  transition: opacity 100ms ease;
 }
 
-form.hidden {
+form.hidden, #results-area.hidden {
   opacity: 0;
 }
 
-form > button {
+form > button, #results-area > button {
   margin: 2rem;
   padding: 1rem;
   font-size: 1.25rem;
@@ -187,4 +188,18 @@ form > button {
 
 .toggle.yes > .toggle-knob::after {
   content: "YES";
+}
+
+#results-area {
+  position: absolute;
+  top: var(--header-height);
+  text-align: center;
+  margin-top: 2rem;
+}
+
+#winning-message {
+  background-color: #33333355;
+  padding: 1rem;
+  margin: 1rem;
+  border-radius: 1rem;
 }

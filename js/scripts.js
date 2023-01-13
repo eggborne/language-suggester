@@ -9,12 +9,26 @@ window.onload = function() {
       e.target.classList.toggle('yes');
     };
   });
+  let resultsArea = document.getElementById('results-area');
   document.querySelector('form > button').onclick = function(e) {
     e.preventDefault();
     tallyScores();
     let winner = languageOptions[getWinner()];
     // populate results div
-    
+    document.querySelector('#results-area > h2').innerText = winner.printName;
+    document.getElementById('winning-message').innerHTML = winner.winningMessage;
+
+    document.querySelector('form').style.display = 'none';
+    document.getElementById('intro').style.display = 'none';
+    resultsArea.classList.remove('hidden');
+  }  
+  document.getElementById('reset-button').onclick = function(e) {
+    resetInputs();
+    resetScores();
+    document.querySelector('form').style.display = 'flex';
+    document.getElementById('intro').style.display = 'block';
+    resultsArea.classList.add('hidden');
+    console.table(languageOptions)
   }  
 }
 
@@ -82,6 +96,17 @@ function tallyScores() {
   console.table(languageOptions);
 }
 
+function resetInputs() {
+  // yes/no
+  [...document.getElementsByClassName('toggle')].forEach(function(toggle) {
+    toggle.classList.remove('yes');
+  });
+  // multiple choice
+  [...document.getElementsByClassName('select-list')].forEach(function(list) {
+    list.selectedIndex = 0;
+  });
+}
+
 function getWinner() {
   let winner;
   let highScore = 0;
@@ -93,6 +118,13 @@ function getWinner() {
     }
   }
   return winner;
+}
+
+function resetScores() {
+  for (const language in languageOptions) {
+    const languageObj = languageOptions[language];
+    languageObj.totalScore = 0;
+  }
 }
 
 const questions = [
@@ -114,7 +146,7 @@ const questions = [
     text: "Do clowns frighten you?",
     scores: [
       {go: 1}, 
-      {python: 1}
+      {python: -1}
     ]
   },
   {
@@ -128,7 +160,7 @@ const questions = [
     text: "Do you own a vest?",
     scores: [
       {dolphin: 1}, 
-      {python: 1}
+      {dolphin: -3}
     ]
   },
   {
@@ -151,12 +183,12 @@ const questions = [
   },
   {
     text: "What does the ideal grilled cheese sandwich contain?",
-    choices: ["tomato", "onions", "tuna", "anchovies"],
+    choices: ["tomato", "onions", "anchovies", "tuna"],
     scores: [
       {go: 1},
       {js: 1},
+      {dolphin: 2},
       {rust: 1},
-      {dolphin: 1},
     ]
   },
   {
@@ -169,37 +201,52 @@ const questions = [
     ]
   },
   {
-    text: "Select your ideal Sunday evening",
-    choices: ["ice skating", "television", "skiing", "wine tasting", "criminal mischief"],
+    text: "Select your ideal Sunday evening.",
+    choices: ["ice skating", "television", "skiing", "wine tasting", "hunting for fish"],
     scores: [
       {rust: 1},
       {go: 1},
       {python: 1},
       {js: 1},
-      {dolphin: 1},
+      {dolphin: 2},
     ]
   },
 ]
 
 const languageOptions = {
   js: {
-    printName: 'JavaScript',
+    printName: "JavaScript",
+    winningMessage: `
+      You have demonstrated a keen ability to synergize leveraging key value-adds with enterprise opportunities. Because of this, we recommend <strong>JavaScript</strong>
+    `,
     totalScore: 0
   },
   python: {
-    printName: 'Python',
+    printName: "Python",
+    winningMessage: `
+      Your humility is surpassed only by your competence. For this reason, we have determined that <strong>Python</strong> is the best language for you.
+    `,
     totalScore: 0
   },
   rust: {
-    printName: 'Rust',
+    printName: "Rust",
+    winningMessage: `
+      Because you possess the iron will of a steely-gazed outlaw, we would suggest <strong>Rust</strong> as the ideal language for you.
+    `,
     totalScore: 0
   },
   go: {
-    printName: 'Go',
+    printName: "Go",
+    winningMessage: `
+      Due to your plucky and determined spirit, we have decided that <strong>Go</strong> is the best language for you.
+    `,
     totalScore: 0
   },
   dolphin: {
-    printName: 'Dolphin language',
+    printName: "Dolphin language",
+    winningMessage: `
+      We have determined that you are a dolphin and therefore best suited to learn <strong>the secret language of the lost kingdom of Dolphinia.</strong>
+    `,
     totalScore: 0
   },
 }
