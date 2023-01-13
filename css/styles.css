@@ -1,0 +1,54 @@
+:root {
+  --actual-height: 100vh; /* this is wrong sometimes; actual pixels in view (minus menu bars etc.) is set by JS at window.onload */
+  --header-height: 4rem;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  --primary-bg-color: #ddd;
+  --primary-text-color: #222;
+  --secondary-bg-color: #444;
+  --secondary-text-color: #eee;
+
+  margin: 0;
+  font-family: sans-serif;
+}
+
+body.dark-theme {
+  --primary-bg-color: #222;
+  --primary-text-color: #bbb;
+  --secondary-bg-color: #333;
+  --secondary-text-color: #aaa;
+}
+
+header {
+  height: var(--header-height);
+  width: 100vw;
+  background-color: var(--secondary-bg-color);
+  color: var(--secondary-text-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 1rem;
+}
+
+#settings-toggle {
+  align-self: stretch;
+  width: var(--header-height);
+  background-color: var(--primary-text-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#settings-toggle > img {
+  width: 85%;
+  height: 85%;
+}
+
+main {
+  background-color: var(--primary-bg-color);
+  color: var(--primary-text-color);
+}
