@@ -1,20 +1,38 @@
 window.onload = function() {
   populateQuestions();
+
+  // menu and settings
+
   document.getElementById('settings-toggle').onpointerdown = function(e) {
     e.target.classList.toggle('open');
     document.querySelector('menu').classList.toggle('open');
   };
+
+  document.getElementById("theme").onchange = function(e) {
+    document.body.classList = [`${e.target.value}-theme`]
+  };
+
+  document.querySelector('main').onpointerdown = function() {
+    if (document.getElementById('settings-toggle').classList.contains('open')) {
+      document.getElementById('settings-toggle').classList.remove('open');
+      document.querySelector('menu').classList.remove('open');
+    }
+  }
+
+  document.getElementById("font-type").onchange = function(e) {
+    document.documentElement.style.setProperty("--font-type", e.target.value);
+  };
+
+  // yes/no toggles
+
   [...document.getElementsByClassName('toggle')].forEach(function(toggle) {
     toggle.onpointerdown = function(e) {
       e.target.classList.toggle('yes');
     };
   });
-  document.getElementById("theme").onchange = function(e) {
-    document.body.classList = [`${e.target.value}-theme`]
-  };
-  document.getElementById("font-type").onchange = function(e) {
-    document.documentElement.style.setProperty("--font-type", e.target.value);
-  };
+
+  // submit/reset buttons
+  
   document.querySelector('form > button').onclick = function(e) {
     e.preventDefault();
     tallyScores();
@@ -51,7 +69,7 @@ function createSelectList(choiceArray, questionIndex) {
   let newID = `select-${questionIndex}`;
   newElement.id = newID;
   newElement.classList.add('select-list');
-  newElement.innerHTML = `<option value="">- Choose one -</option>`;
+  newElement.innerHTML = `<option value="">- Choose -</option>`;
   choiceArray.forEach(function(choice) {
     newElement.innerHTML += `<option value="${choice}">${choice}</option>`
   });
@@ -68,7 +86,9 @@ function createYesNoToggle(questionIndex) {
 }
 
 function tallyScores() {
+
   // yes/no
+
   [...document.getElementsByClassName('toggle')].forEach(function(toggle) {
     let userAnswer = toggle.classList.contains('yes') ? 1 : 0;
     let questionObj = questions[parseInt(toggle.id[toggle.id.length-1])];
@@ -76,19 +96,21 @@ function tallyScores() {
     let pointsToAdd = Object.entries(questionObj.scores[userAnswer])[0][1];
     possibleLanguages[favoredLanguage].totalScore += pointsToAdd;
   });
+
   // multiple choice
+
   [...document.getElementsByClassName('select-list')].forEach(function(list) {
     let userAnswer = list.value;
     if (userAnswer) {
-      let questionObj = questions[parseInt(list.id[list.id.length-1])];
+      let questionIndex = parseInt(list.id.split("-")[1]);
+      let questionObj = questions[questionIndex];
       let answerIndex = questionObj.choices.indexOf(userAnswer);
-      let scoreObj = questionObj.scores[answerIndex];
-      let favoredLanguage = Object.entries(questionObj.scores[answerIndex])[0][0];
-      let pointsToAdd = Object.entries(questionObj.scores[answerIndex])[0][1];
+      let scoreArray = Object.entries(questionObj.scores[answerIndex])[0]
+      let favoredLanguage = scoreArray[0];
+      let pointsToAdd = scoreArray[1];
       possibleLanguages[favoredLanguage].totalScore += pointsToAdd;
     }
   });
-  console.log('tallied scores:');
   console.table(possibleLanguages);
 }
 
@@ -103,7 +125,9 @@ function revealResults() {
   document.querySelector('form').style.display = 'none';
   document.getElementById('intro').style.display = 'none';
   document.getElementById('results-area').classList.remove('hidden');
+  
 }
+
 function revealQuestions() {
   document.querySelector('form').style.display = 'flex';
   document.getElementById('intro').style.display = 'block';
@@ -111,11 +135,15 @@ function revealQuestions() {
 }
 
 function resetInputs() {
+
   // yes/no
+
   [...document.getElementsByClassName('toggle')].forEach(function(toggle) {
     toggle.classList.remove('yes');
   });
+
   // multiple choice
+
   [...document.getElementsByClassName('select-list')].forEach(function(list) {
     list.selectedIndex = 0;
   });
@@ -129,6 +157,10 @@ function getWinner() {
     if (languageObj.totalScore > highScore) {
       highScore = languageObj.totalScore;
       winner = language;
+    } else if (languageObj.totalScore === highScore) {
+      if (Math.random() > 0.5) {
+        winner = language;
+      }
     }
   }
   return winner;
@@ -152,15 +184,15 @@ const questions = [
   {
     text: "Have you ever been bowling?",
     scores: [
-      {dolphin: 1}, 
-      {js: 1}
+      {rust: 2}, 
+      {js: -1}
     ]
   },
   {
     text: "Do clowns frighten you?",
     scores: [
-      {go: 1}, 
-      {python: -1}
+      {go: -1}, 
+      {python: 2}
     ]
   },
   {
@@ -173,8 +205,8 @@ const questions = [
   {
     text: "Do you own a vest?",
     scores: [
-      {dolphin: 1}, 
-      {dolphin: -3}
+      {go: 1}, 
+      {python: 2}
     ]
   },
   {
@@ -193,6 +225,14 @@ const questions = [
       {rust: 1},
       {go: 1},
       {dolphin: 1},
+    ]
+  },
+  {
+    text: "Siskel or Ebert?",
+    choices: ["siskel", "ebert"],
+    scores: [
+      {python: 2},
+      {go: 1},
     ]
   },
   {
@@ -225,13 +265,43 @@ const questions = [
       {dolphin: 2},
     ]
   },
+  {
+    text: "What do you think of parades?",
+    choices: ["fantastic", "boring", "indifferent"],
+    scores: [
+      {go: 1},
+      {rust: 1},
+      {dolphin: 2},
+    ]
+  },
+  {
+    text: "When did you last visit a T.G.I. Friday's?",
+    choices: ["just now", "last week", "last month", "last year", "never"],
+    scores: [
+      {go: 1},
+      {rust: 1},
+      {python: 2},
+      {js: 1},
+      {dolphin: 2},
+    ]
+  },
+  {
+    text: "How many scarves is appropriate to wear at once?",
+    choices: ["three", "two", "one", "none"],
+    scores: [
+      {python: 1},
+      {go: 1},
+      {rust: 1},
+      {js: 1},
+    ]
+  },
 ]
 
 const possibleLanguages = {
   js: {
     printName: "JavaScript",
     winningMessage: `
-      You have demonstrated a keen ability to synergize leveraging key value-adds with enterprise opportunities. Because of this, we recommend <strong>JavaScript</strong>.
+      You have demonstrated a keen ability to synergize leveraging key value-adds with enterprise opportunities moving forward. Because of this, we recommend <strong>JavaScript</strong>.
     `,
     totalScore: 0
   },
