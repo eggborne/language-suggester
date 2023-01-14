@@ -1,5 +1,6 @@
 :root {
   --header-height: 4rem;
+  --font-type: sans-serif;
 }
 
 * {
@@ -9,10 +10,9 @@
 body {
   --primary-bg-color: #eee;
   --primary-text-color: #222;
-  --secondary-bg-color: #444;
+  --secondary-bg-color: #666;
   --secondary-text-color: #eee;
   --form-bg-color: #ddd;
-  --font-type: sans-serif;
 
   margin: 0;
   background-color: var(--primary-bg-color);
@@ -26,6 +26,14 @@ body.dark-theme {
   --secondary-bg-color: #333;
   --secondary-text-color: #aaa;
   --form-bg-color: #151515;
+}
+
+body.black-theme {
+  --primary-bg-color: #000;
+  --primary-text-color: #aaa;
+  --secondary-bg-color: #000;
+  --secondary-text-color: #999;
+  --form-bg-color: #000;
 }
 
 header {
@@ -45,8 +53,6 @@ header {
   display: flex;
   justify-content: center;
   align-items: center;
-  
-  display: none;
 }
 
 #settings-toggle > img {
@@ -91,6 +97,13 @@ select {
   padding: 0.5rem 1rem;
   text-transform: capitalize;
   width: 8rem;
+  background-color: var(--primary-bg-color);
+  color: var(--primary-text-color);
+}
+
+button {
+  background-color: var(--form-bg-color);
+  color: var(--form-text-color);
 }
 
 menu select {
@@ -215,4 +228,53 @@ form > button, #results-area > button {
   padding: 1rem;
   margin: 1rem;
   border-radius: 1rem;
+}
+
+@media screen and (orientation: landscape) and (min-width: 480px) {
+  body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow-x: hidden;
+  }
+  header {
+    padding-left: 2rem;
+  }
+  main {
+    max-width: 640px;
+    border: 1rem solid rgba(0, 0, 0, 0.256);
+    border-width: 0 1rem 0 1rem;
+  }
+  select {
+    width: 12rem;
+  }
+  #form-area {
+    display: flex;
+    justify-content: center;
+  }
+  #results-area {
+    max-width: 640px;
+  }
+  
+  menu {
+    transform: none;
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    width: 60vw;
+    height: var(--header-height);
+    top: 0;
+    right: 0;
+  }
+
+  menu label, menu > li {
+    margin-right: 1rem;
+  }
+
+  #settings-toggle {
+    display: none;
+  }
+
 }

@@ -9,6 +9,12 @@ window.onload = function() {
       e.target.classList.toggle('yes');
     };
   });
+  document.getElementById("theme").onchange = function(e) {
+    document.body.classList = [`${e.target.value}-theme`]
+  };
+  document.getElementById("font-type").onchange = function(e) {
+    document.documentElement.style.setProperty("--font-type", e.target.value);
+  };
   document.querySelector('form > button').onclick = function(e) {
     e.preventDefault();
     tallyScores();
@@ -18,7 +24,7 @@ window.onload = function() {
     resetInputs();
     resetScores();
     revealQuestions();
-  }  
+  }
 }
 
 function populateQuestions() {
@@ -90,7 +96,7 @@ function revealResults() {
   let winner = getWinner();
   let winnerObj = possibleLanguages[winner];
   document.querySelector('#result-image-area').innerHTML = `
-    <img src="img/${winner.toLowerCase()}.png">
+    <img src="img/${winner.toLowerCase()}.png" alt="${winnerObj.printName} logo">
   `;
   document.querySelector('#results-area > h1').innerText = winnerObj.printName;
   document.getElementById('winning-message').innerHTML = winnerObj.winningMessage;
