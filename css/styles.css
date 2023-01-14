@@ -36,6 +36,10 @@ body.black-theme {
   --form-bg-color: #000;
 }
 
+body.black-theme button {
+  border-color: var(--secondary-text-color);
+}
+
 header {
   height: var(--header-height);
   width: 100vw;
