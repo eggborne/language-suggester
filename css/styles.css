@@ -170,7 +170,7 @@ form > button, #results-area > button {
 }
 
 .form-row > p {
-  padding-right: 1rem;
+  padding-right: 0.25rem;
 }
 
 .toggle {
