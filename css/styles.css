@@ -269,6 +269,10 @@ form > button, #results-area > button {
     right: 0;
   }
 
+  menu label {
+    width: max-content;
+  }
+
   menu label, menu > li {
     margin-right: 1rem;
   }
