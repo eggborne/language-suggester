@@ -24,7 +24,8 @@ Navigate to the cloned directory and open index.html in your favorite web browse
 
 ## Known Bugs
 
-Form can be submitted with incomplete answers
+* Form can be submitted with incomplete answers
+* Wing Dings font not working on mobile Chrome
 
 ## Legal
 
