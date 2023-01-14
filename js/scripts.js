@@ -51,6 +51,7 @@ function createSelectList(choiceArray, questionIndex) {
   });
   return newElement.outerHTML;
 }
+
 function createYesNoToggle(questionIndex) {
   return `
     <div id="toggle-${questionIndex}" class="toggle no">

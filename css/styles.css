@@ -11,6 +11,7 @@ body {
   --primary-text-color: #222;
   --secondary-bg-color: #444;
   --secondary-text-color: #eee;
+  --form-bg-color: #ddd;
   --font-type: sans-serif;
 
   margin: 0;
@@ -24,6 +25,7 @@ body.dark-theme {
   --primary-text-color: #bbb;
   --secondary-bg-color: #333;
   --secondary-text-color: #aaa;
+  --form-bg-color: #151515;
 }
 
 header {
@@ -40,10 +42,11 @@ header {
 #settings-toggle {
   align-self: stretch;
   width: var(--header-height);
-  background-color: var(--primary-text-color);
   display: flex;
   justify-content: center;
   align-items: center;
+  
+  display: none;
 }
 
 #settings-toggle > img {
@@ -137,7 +140,7 @@ form > button, #results-area > button {
   justify-content: space-between;
   align-items: center;
   padding: 1rem;
-  background-color: var(--secondary-text-color);
+  background-color: var(--form-bg-color);
   border-top: 0.25rem solid #00000044;
 }
 .form-row:last-child {
@@ -203,11 +206,12 @@ form > button, #results-area > button {
 }
 
 #result-image-area > img {
-  height: 15rem;
+  max-height: 15rem;
+  max-width: 100vw;
 }
 
 #winning-message {
-  background-color: #33333355;
+  background-color: #33333333;
   padding: 1rem;
   margin: 1rem;
   border-radius: 1rem;
